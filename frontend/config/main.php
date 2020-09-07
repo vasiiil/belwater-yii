@@ -33,6 +33,24 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'request'      => [
+            'parsers'              => [
+                'application/json' => \yii\web\JsonParser::class,
+            ],
+            'enableCsrfValidation' => false,
+            'class'                => 'yii\web\Request',
+            'baseUrl' => '',
+        ],
+//        'response'     => [
+//            'format'        => yii\web\Response::FORMAT_JSON,
+//            'charset'       => 'UTF-8',
+//            'on beforeSend' => function($event)
+//            {
+//                $event->sender->headers->add('Access-Control-Allow-Origin', '*');
+//                $event->sender->headers->add('Access-Control-Allow-Headers', '*');
+//            },
+//            // ...
+//        ],
     ],
     'params' => $params,
 ];

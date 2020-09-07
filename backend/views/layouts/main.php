@@ -29,31 +29,39 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
+    $menuItems[] = [
+        'label' => 'Меню',
+        'items' => [
+            ['label' => 'Пользователи', 'url' => ['/users']],
+            ['label' => '1 - 2', 'url' => ['/']],
+        ],
     ];
+    
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav'],
+        'items' => $menuItems,
+    ]);
+    
+    $menuItems = [
+        ['label' => 'Главная', 'url' => ['/']],
+    ];
+    
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+        $menuItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
     }
+    else {
+        $menuItems[] = ['label' => 'Выход (' . Yii::$app->user->identity->name . ')', 'url' => ['/site/logout']];
+    }
+    
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
     ]);
+    
     NavBar::end();
     ?>
 

@@ -1,0 +1,10 @@
+# Mod_Rewrite
+<IfModule mod_rewrite.c>
+    # frontend
+    RewriteCond %{REQUEST_URI} !^/admin
+    RewriteRule ^(.*)$ frontend/web/$1 [L]
+  
+    # backend
+    RewriteCond %{REQUEST_URI} ^/admin
+    RewriteRule ^adm(.*)$ backend/web/$1 [L]
+</IfModule>

@@ -32,15 +32,15 @@ class ApiSystem
         ],
         self::MUTUAL_SETTLEMENTS  => [
             'name'        => 'Name',
-            'begin_saldo' => 'BeginSaldo',
-            'end_saldo'   => 'EndSaldo',
+            'beginSaldo' => 'BeginSaldo',
+            'endSaldo'   => 'EndSaldo',
             'charges'     => 'Charges',
             'payments'    => 'Payments',
         ],
         self::METERES_INFO        => [
-            'name'              => 'Name',
-            'indication'        => 'Indication',
-            'id'                => 'ID',
+            'name'             => 'Name',
+            'indication'       => 'Indication',
+            'id'               => 'ID',
             'verificationDate' => 'VerificationDate',
             'indicationDate'   => 'IndicationDate',
         ],
@@ -52,17 +52,17 @@ class ApiSystem
         self::PAYMENT             => [
             'charges' => 'Charges',
             'saldo'   => 'Saldo',
-            'summa'   => 'Summa',
+            'sum'     => 'Summa',
             'id'      => 'ID',
             'name'    => 'Name',
         ],
         self::METERES             => [
-            'name'           => 'Name',
-            'indication'     => 'Indication',
-            'id'             => 'ID',
-            'date'           => 'IndicationDate',
+            'name'          => 'Name',
+            'indication'    => 'Indication',
+            'id'            => 'ID',
+            'date'          => 'IndicationDate',
             'maxIndication' => 'MaxIndication',
-            'newIndication'  => 'Indication',
+            'newIndication' => 'Indication',
         ],
     ];
     protected $allowed_methods = [
@@ -170,8 +170,8 @@ class ApiSystem
                     $tmp_val = [];
                     foreach ($val['devices'] as $device) {
                         $tmp_val[] = [
-                            'ServiceID'        => $device['service_id'],
-                            'MeteringDeviceID' => $device['device_id'],
+                            'ServiceID'        => $device['serviceId'],
+                            'MeteringDeviceID' => $device['deviceId'],
                             'Summa'            => $device['value'],
                         ];
                     }
@@ -293,7 +293,7 @@ class ApiSystem
                 ],
                 [
                     'text'  => 'Начальное сальдо',
-                    'value' => 'begin_saldo',
+                    'value' => 'beginSaldo',
                 ],
                 [
                     'text'  => 'Начислено',
@@ -305,7 +305,7 @@ class ApiSystem
                 ],
                 [
                     'text'  => 'Конечное сальдо',
-                    'value' => 'end_saldo',
+                    'value' => 'endSaldo',
                 ],
             ],
             'items'   => $this->getArrayRecursive($data['CalculationTable'], $this->_params[self::MUTUAL_SETTLEMENTS]),
@@ -319,31 +319,29 @@ class ApiSystem
         }
 
         return [
-            'data' => [
-                'headers' => [
-                    [
-                        'text'  => '',
-                        'value' => 'data-table-expand',
-                    ],
-                    [
-                        'text'  => 'Прибор учета',
-                        'value' => 'name',
-                    ],
-                    [
-                        'text'  => 'Дата следующей поверки',
-                        'value' => 'verification_date',
-                    ],
-                    [
-                        'text'  => 'Дата последней передачи показаний',
-                        'value' => 'indication_date',
-                    ],
-                    [
-                        'text'  => 'Последние переданные показания',
-                        'value' => 'indication',
-                    ],
+            'headers' => [
+                [
+                    'text'  => '',
+                    'value' => 'data-table-expand',
                 ],
-                'items'   => $this->getArrayRecursive($data['MeteringDevice'], $this->_params[self::METERES_INFO]),
+                [
+                    'text'  => 'Прибор учета',
+                    'value' => 'name',
+                ],
+                [
+                    'text'  => 'Дата следующей поверки',
+                    'value' => 'verificationDate',
+                ],
+                [
+                    'text'  => 'Дата последней передачи показаний',
+                    'value' => 'indicationDate',
+                ],
+                [
+                    'text'  => 'Последние переданные показания',
+                    'value' => 'indication',
+                ],
             ],
+            'items'   => $this->getArrayRecursive($data['MeteringDevice'], $this->_params[self::METERES_INFO]),
         ];
     }
 
@@ -354,27 +352,25 @@ class ApiSystem
         }
 
         return [
-            'data' => [
-                'headers' => [
-                    [
-                        'text'  => '',
-                        'value' => 'data-table-expand',
-                    ],
-                    [
-                        'text'  => 'Период',
-                        'value' => 'date',
-                    ],
-                    [
-                        'text'  => 'Переданные показания',
-                        'value' => 'indication',
-                    ],
-                    [
-                        'text'  => 'Расход',
-                        'value' => 'expense',
-                    ],
+            'headers' => [
+                [
+                    'text'  => '',
+                    'value' => 'data-table-expand',
                 ],
-                'items'   => $this->getArrayRecursive($data['IndicationTable'], $this->_params[self::METERE_INFO]),
+                [
+                    'text'  => 'Период',
+                    'value' => 'date',
+                ],
+                [
+                    'text'  => 'Переданные показания',
+                    'value' => 'indication',
+                ],
+                [
+                    'text'  => 'Расход',
+                    'value' => 'expense',
+                ],
             ],
+            'items'   => $this->getArrayRecursive($data['IndicationTable'], $this->_params[self::METERE_INFO]),
         ];
     }
 
@@ -385,7 +381,29 @@ class ApiSystem
         }
 
         return [
-            'data' => $this->getArrayRecursive($data['ChargesTable'], $this->_params[self::PAYMENT]),
+            'headers' => [
+                [
+                    'text'  => '',
+                    'value' => 'data-table-expand',
+                ],
+                [
+                    'text'  => 'Услуга/Прибор учета',
+                    'value' => 'name',
+                ],
+                [
+                    'text'  => 'Начислено',
+                    'value' => 'charges',
+                ],
+                [
+                    'text'  => 'Долг/Переплата',
+                    'value' => 'saldo',
+                ],
+                [
+                    'text'  => 'К оплате',
+                    'value' => 'sum',
+                ],
+            ],
+            'items' => $this->getArrayRecursive($data['ChargesTable'], $this->_params[self::PAYMENT]),
         ];
     }
 
@@ -396,32 +414,30 @@ class ApiSystem
         }
 
         return [
-            'data' => [
-                'headers' => [
-                    [
-                        'text'  => '',
-                        'value' => 'data-table-expand',
-                    ],
-                    [
-                        'text'  => 'Прибор учета',
-                        'value' => 'name',
-                    ],
-                    [
-                        'text'  => 'Дата последней передачи показаний',
-                        'value' => 'date',
-                    ],
-                    [
-                        'text'  => 'Последние переданные показания',
-                        'value' => 'indication',
-                    ],
-                    [
-                        'text'  => 'Текущие показания',
-                        'value' => 'newIndication',
-                        'width' => '25%'
-                    ],
+            'headers' => [
+                [
+                    'text'  => '',
+                    'value' => 'data-table-expand',
                 ],
-                'items'   => $this->getArrayRecursive($data['MeteringDevice'], $this->_params[self::METERES]),
+                [
+                    'text'  => 'Прибор учета',
+                    'value' => 'name',
+                ],
+                [
+                    'text'  => 'Дата последней передачи показаний',
+                    'value' => 'date',
+                ],
+                [
+                    'text'  => 'Последние переданные показания',
+                    'value' => 'indication',
+                ],
+                [
+                    'text'  => 'Текущие показания',
+                    'value' => 'newIndication',
+                    'width' => '25%',
+                ],
             ],
+            'items'   => $this->getArrayRecursive($data['MeteringDevice'], $this->_params[self::METERES]),
         ];
     }
 
@@ -431,7 +447,7 @@ class ApiSystem
             return ['err' => 'Что-то пошло не так. Попробуйте позднее.'];
         }
 
-        return ['err' => false];
+        return ['message' => 'Показания переданы.'];
     }
 
     protected function paymentsCommit($data)
